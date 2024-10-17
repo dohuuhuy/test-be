@@ -1,3 +1,7 @@
+using System;
+using Application.Service;
+using Microsoft.EntityFrameworkCore;
+
 namespace Application;
 
 public class Program
@@ -8,7 +12,10 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-
+        builder.Services.AddDbContext<AppDbContext>(options =>
+            options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection"))
+        );
+        builder.Services.AddScoped<BlogService>();
         var app = builder.Build();
         app.UseSwagger();
         app.UseSwaggerUI();
