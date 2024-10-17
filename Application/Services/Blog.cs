@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 
 namespace Application.Service
@@ -16,11 +17,20 @@ namespace Application.Service
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(blog.title))
+                {
+                    throw new ArgumentException("Tiêu đề không thể trống.", nameof(blog.title));
+                }
+
                 if (blog.id == 0)
                 {
                     _context.BlogEntities.Add(blog);
+
                     var rs = await _context.SaveChangesAsync();
-                    return new Result<dynamic>(rs, "Thêm mới thành công!");
+                    var createdId = _context.Entry(blog).Entity.id;
+                    if (rs > 0)
+                        return new Result<dynamic>(createdId, "Thêm mới thành công!");
+                    throw new InvalidCastException("Thêm mới không thành công!");
                 }
                 else
                 {
@@ -38,12 +48,13 @@ namespace Application.Service
 
                     _context.BlogEntities.Update(fitem);
                     var rs = await _context.SaveChangesAsync();
-                    return new Result<dynamic>(rs, "Cập nhật thành công!");
+                    var createdId = _context.Entry(blog).Entity.id;
+                    return new Result<dynamic>(createdId, "Cập nhật thành công!");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return new Result<dynamic>(null, ex.Message);
+                throw;
             }
         }
 
