@@ -66,7 +66,10 @@ namespace Application.Service
 
         public async Task<Result<dynamic>> One(int id)
         {
-            var fblog = from blog in _context.BlogEntities where blog.id == id select blog;
+            var fblog =
+                from blog in _context.BlogEntities
+                where blog.id == id
+                select EntityHelper.Omit(blog, "id");
             return new Result<dynamic>(await fblog.FirstOrDefaultAsync());
         }
 

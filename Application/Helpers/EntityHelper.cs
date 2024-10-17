@@ -1,8 +1,8 @@
 public static class EntityHelper
 {
-    public static T Pick<T>(T entity, params string[] properties)
+    public static Dictionary<string, object?> Pick<T>(T entity, params string[] properties)
     {
-        var result = Activator.CreateInstance<T>();
+        var result = new Dictionary<string, object?>();
         var entityType = typeof(T);
 
         foreach (var property in properties)
@@ -10,8 +10,10 @@ public static class EntityHelper
             var propInfo = entityType.GetProperty(property);
             if (propInfo != null)
             {
-                propInfo.SetValue(result, propInfo.GetValue(entity));
+                var value = propInfo.GetValue(entity);
+                result[property] = value; // Assign the value, it can be null
             }
+            // If the property is not found, do not add it to the result
         }
 
         return result;
