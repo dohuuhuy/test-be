@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/huyi/Documents/work/test-be/Application/Application.csproj": {}
+    "/Users/docs/work/test-be/Application/Application.csproj": {}
   },
   "projects": {
-    "/Users/huyi/Documents/work/test-be/Application/Application.csproj": {
+    "/Users/docs/work/test-be/Application/Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/huyi/Documents/work/test-be/Application/Application.csproj",
+        "projectUniqueName": "/Users/docs/work/test-be/Application/Application.csproj",
         "projectName": "Application",
-        "projectPath": "/Users/huyi/Documents/work/test-be/Application/Application.csproj",
+        "projectPath": "/Users/docs/work/test-be/Application/Application.csproj",
         "packagesPath": "/Users/huyi/.nuget/packages/",
-        "outputPath": "/Users/huyi/Documents/work/test-be/Application/obj/",
+        "outputPath": "/Users/docs/work/test-be/Application/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/huyi/.nuget/NuGet/NuGet.Config"
@@ -60,6 +60,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
+            },
+            "lodash": {
+              "target": "Package",
+              "version": "[4.17.21, )"
             }
           },
           "imports": [

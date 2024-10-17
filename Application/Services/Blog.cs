@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 
 namespace Application.Service
@@ -64,13 +63,13 @@ namespace Application.Service
             return new Result<dynamic>(await blogs.ToListAsync(), "Thành công");
         }
 
-        public async Task<Result<dynamic>> One(int id)
+        public async Task<Result<BlogEntity>> One(int id)
         {
             var fblog =
                 from blog in _context.BlogEntities
                 where blog.id == id
                 select EntityHelper.Omit(blog, "id");
-            return new Result<dynamic>(await fblog.FirstOrDefaultAsync());
+            return new Result<BlogEntity>(await fblog.FirstOrDefaultAsync());
         }
 
         public async Task<Result<dynamic>> Remove(int id)

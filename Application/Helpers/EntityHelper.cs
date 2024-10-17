@@ -1,36 +1,41 @@
+using System.Dynamic;
+using System.Reflection;
+
 public static class EntityHelper
 {
-    public static Dictionary<string, object?> Pick<T>(T entity, params string[] properties)
+    public static object Pick<T>(T entity, params string[] properties)
     {
-        var result = new Dictionary<string, object?>();
-        var entityType = typeof(T);
+        var type = typeof(T);
+        var result = new ExpandoObject() as IDictionary<string, object>;
 
-        foreach (var property in properties)
+        foreach (var prop in properties)
         {
-            var propInfo = entityType.GetProperty(property);
-            if (propInfo != null)
+            var propertyInfo = type.GetProperty(prop, BindingFlags.Public | BindingFlags.Instance);
+            if (propertyInfo != null)
             {
-                var value = propInfo.GetValue(entity);
-                result[property] = value; // Assign the value, it can be null
+                var value = propertyInfo.GetValue(entity);
+
+                if (value != null)
+                    result.Add(prop, value);
             }
-            // If the property is not found, do not add it to the result
         }
 
         return result;
     }
 
-    public static T Omit<T>(T entity, params string[] propertiesToOmit)
+    public static object Omit<T>(T entity, params string[] properties)
     {
-        var result = Activator.CreateInstance<T>();
-        var entityType = typeof(T);
+        var type = typeof(T);
+        var result = new ExpandoObject() as IDictionary<string, object>;
+        var allProperties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
-        var propertiesToOmitSet = new HashSet<string>(propertiesToOmit);
-
-        foreach (var propInfo in entityType.GetProperties())
+        foreach (var propertyInfo in allProperties)
         {
-            if (!propertiesToOmitSet.Contains(propInfo.Name))
+            if (!properties.Contains(propertyInfo.Name))
             {
-                propInfo.SetValue(result, propInfo.GetValue(entity));
+                var value = propertyInfo.GetValue(entity);
+                if (value != null)
+                    result.Add(propertyInfo.Name, value);
             }
         }
 

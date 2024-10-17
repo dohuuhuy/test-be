@@ -15,6 +15,9 @@
           }
         }
       },
+      "lodash/4.17.21": {
+        "type": "package"
+      },
       "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
         "type": "package",
         "compile": {
@@ -938,6 +941,21 @@
         "lib/netstandard2.0/Humanizer.dll",
         "lib/netstandard2.0/Humanizer.xml",
         "logo.png"
+      ]
+    },
+    "lodash/4.17.21": {
+      "sha512": "G4CvUQiR+GMmczLlr8tp/MrM6CcqM5N+1LOipe6BYUQp0oft4kI1c6ylKfI2U/KG8SD/NALo1+TAlYh9suP2Xw==",
+      "type": "package",
+      "path": "lodash/4.17.21",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "content/Scripts/lodash.core.js",
+        "content/Scripts/lodash.core.min.js",
+        "content/Scripts/lodash.js",
+        "content/Scripts/lodash.min.js",
+        "lodash.4.17.21.nupkg.sha512",
+        "lodash.nuspec"
       ]
     },
     "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
@@ -2566,7 +2584,8 @@
       "Microsoft.EntityFrameworkCore.Design >= 8.0.10",
       "Newtonsoft.Json >= 13.0.3",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 8.0.8",
-      "Swashbuckle.AspNetCore >= 6.4.0"
+      "Swashbuckle.AspNetCore >= 6.4.0",
+      "lodash >= 4.17.21"
     ]
   },
   "packageFolders": {
@@ -2575,11 +2594,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/huyi/Documents/work/test-be/Application/Application.csproj",
+      "projectUniqueName": "/Users/docs/work/test-be/Application/Application.csproj",
       "projectName": "Application",
-      "projectPath": "/Users/huyi/Documents/work/test-be/Application/Application.csproj",
+      "projectPath": "/Users/docs/work/test-be/Application/Application.csproj",
       "packagesPath": "/Users/huyi/.nuget/packages/",
-      "outputPath": "/Users/huyi/Documents/work/test-be/Application/obj/",
+      "outputPath": "/Users/docs/work/test-be/Application/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/huyi/.nuget/NuGet/NuGet.Config"
@@ -2628,6 +2647,10 @@
           "Swashbuckle.AspNetCore": {
             "target": "Package",
             "version": "[6.4.0, )"
+          },
+          "lodash": {
+            "target": "Package",
+            "version": "[4.17.21, )"
           }
         },
         "imports": [
