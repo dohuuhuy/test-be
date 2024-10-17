@@ -68,7 +68,7 @@ namespace Application.Service
             var fblog =
                 from blog in _context.BlogEntities
                 where blog.id == id
-                select EntityHelper.Omit(blog, "id");
+                select EntityHelper.Pick(blog, "id");
             return new Result<BlogEntity>(await fblog.FirstOrDefaultAsync());
         }
 
