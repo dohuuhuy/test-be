@@ -63,21 +63,15 @@ namespace Application.Service
             return new Result<dynamic>(await blogs.ToListAsync(), "Thành công");
         }
 
-        public class BlogDto
-        {
-            public string? Title { get; set; }
-            public string? Content { get; set; }
-        };
-
-        public async Task<dynamic> One(int id)
+        public async Task<Result<BlogEntity>> One(int id)
         {
             var query =
                 from blog in _context.BlogEntities
                 where blog.id == id
-                select EntityHelper.Pick(blog, "id");
+                select EntityHelper.Omit(blog, "content");
 
-            var exc = await query.FirstOrDefaultAsync();
-            return new Result<dynamic>(exc);
+            var act = await query.FirstOrDefaultAsync();
+            return new Result<BlogEntity>(act);
         }
 
         public async Task<Result<dynamic>> Remove(int id)
@@ -92,11 +86,5 @@ namespace Application.Service
             await _context.SaveChangesAsync();
             return new Result<dynamic>("Xoá thành công!");
         }
-    }
-
-    public class FindDTO
-    {
-        public required string title { get; set; }
-        public required string content { get; set; }
     }
 }
