@@ -60,3 +60,7 @@ coverage/
 
 # Azure Functions
 local.settings.json
+
+# cách dùng git ignore
+# git rm -rf --cached .
+# git add .
