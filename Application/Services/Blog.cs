@@ -63,7 +63,13 @@ namespace Application.Service
             return new Result<dynamic>(await blogs.ToListAsync(), "Thành công");
         }
 
-        public async Task<Result<BlogEntity>> One(int id)
+        public class BlogDto
+        {
+            public string? Title { get; set; }
+            public string? Content { get; set; }
+        };
+
+        public async Task<dynamic> One(int id)
         {
             var query =
                 from blog in _context.BlogEntities
@@ -71,7 +77,7 @@ namespace Application.Service
                 select EntityHelper.Pick(blog, "id");
 
             var exc = await query.FirstOrDefaultAsync();
-            return new Result<BlogEntity>(exc);
+            return new Result<dynamic>(exc);
         }
 
         public async Task<Result<dynamic>> Remove(int id)

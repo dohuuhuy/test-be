@@ -1,37 +1,46 @@
+using System.Dynamic;
+using System.Linq;
+using System.Reflection;
+using Microsoft.EntityFrameworkCore;
+
 public static class EntityHelper
 {
-    public static T Pick<T>(T entity, params string[] properties)
-        where T : new()
+    public static IDictionary<string, object> Pick<T>(T entity, params string[] properties)
     {
-        var result = new T();
+        var result = new Dictionary<string, object>();
         var entityType = typeof(T);
-        var propertiesToPick = new HashSet<string>(properties); // HashSet for quick lookup
+        var entityProperties = entityType.GetProperties();
 
-        foreach (var propInfo in entityType.GetProperties())
+        foreach (var property in entityProperties)
         {
-            // If the property is in the pick list, copy its value
-            if (propertiesToPick.Contains(propInfo.Name))
+            if (properties.Contains(property.Name))
             {
-                var value = propInfo.GetValue(entity);
-                propInfo.SetValue(result, value); // Set the value on the new instance
+                var value = property.GetValue(entity);
+                if (value != null)
+                {
+                    result[property.Name] = value;
+                }
             }
         }
 
         return result;
     }
 
-    public static T Omit<T>(T entity, params string[] propertiesToOmit)
+    public static IDictionary<string, object> Omit<T>(T entity, params string[] properties)
     {
-        var result = Activator.CreateInstance<T>();
+        var result = new Dictionary<string, object>();
         var entityType = typeof(T);
+        var entityProperties = entityType.GetProperties();
 
-        var propertiesToOmitSet = new HashSet<string>(propertiesToOmit);
-
-        foreach (var propInfo in entityType.GetProperties())
+        foreach (var property in entityProperties)
         {
-            if (!propertiesToOmitSet.Contains(propInfo.Name))
+            if (!properties.Contains(property.Name))
             {
-                propInfo.SetValue(result, propInfo.GetValue(entity));
+                var value = property.GetValue(entity);
+                if (value != null)
+                {
+                    result[property.Name] = value;
+                }
             }
         }
 
