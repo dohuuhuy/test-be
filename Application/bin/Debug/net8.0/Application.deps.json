@@ -11,8 +11,7 @@
           "Microsoft.EntityFrameworkCore.Design": "8.0.10",
           "Newtonsoft.Json": "13.0.3",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.8",
-          "Swashbuckle.AspNetCore": "6.4.0",
-          "lodash": "4.17.21"
+          "Swashbuckle.AspNetCore": "6.4.0"
         },
         "runtime": {
           "Application.dll": {}
@@ -26,7 +25,6 @@
           }
         }
       },
-      "lodash/4.17.21": {},
       "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
         "runtime": {
           "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll": {
@@ -586,13 +584,6 @@
       "sha512": "sha512-lQKvtaTDOXnoVJ20ibTuSIOf2i0uO0MPbDhd1jm238I+U/2ZnRENj0cktKZhtchBMtCUSRQ5v4xBCUbKNmyVMw==",
       "path": "humanizer.core/2.14.1",
       "hashPath": "humanizer.core.2.14.1.nupkg.sha512"
-    },
-    "lodash/4.17.21": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-G4CvUQiR+GMmczLlr8tp/MrM6CcqM5N+1LOipe6BYUQp0oft4kI1c6ylKfI2U/KG8SD/NALo1+TAlYh9suP2Xw==",
-      "path": "lodash/4.17.21",
-      "hashPath": "lodash.4.17.21.nupkg.sha512"
     },
     "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
       "type": "package",

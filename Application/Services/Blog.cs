@@ -65,11 +65,13 @@ namespace Application.Service
 
         public async Task<Result<BlogEntity>> One(int id)
         {
-            var fblog =
+            var query =
                 from blog in _context.BlogEntities
                 where blog.id == id
                 select EntityHelper.Pick(blog, "id");
-            return new Result<BlogEntity>(await fblog.FirstOrDefaultAsync());
+
+            var exc = await query.FirstOrDefaultAsync();
+            return new Result<BlogEntity>(exc);
         }
 
         public async Task<Result<dynamic>> Remove(int id)
