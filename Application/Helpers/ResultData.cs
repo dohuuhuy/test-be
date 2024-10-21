@@ -1,21 +1,19 @@
-
 namespace Application
 {
-    public class Result<T>
+    public class Result
     {
-        public T? Data { get; set; }
+        public dynamic? Data { get; set; }
         public string? Message { get; set; }
-        public IDictionary<string, object>? Exc { get; }
 
-        public Result(T? data = default, string? message = default)
+        public Result(dynamic? data = default, string? message = default)
         {
             Data = data;
             Message = message;
         }
 
-        public Result(IDictionary<string, object>? exc)
+        public Result(string? message = default)
         {
-            Exc = exc;
+            Message = message;
         }
     }
 }

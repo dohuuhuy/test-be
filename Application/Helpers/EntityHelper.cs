@@ -1,46 +1,59 @@
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
-public static class EntityHelper
+namespace Application
 {
-    public static IDictionary<string, object> Pick<T>(T entity, params string[] properties)
+    public class EntityHelper
     {
-        var result = new Dictionary<string, object>();
-        var entityType = typeof(T);
-        var entityProperties = entityType.GetProperties();
-
-        foreach (var property in entityProperties)
+        public static dynamic Pick<T>(T entity, params string[] properties)
         {
-            if (properties.Contains(property.Name))
+            var result = new Dictionary<string, object>();
+            var entityType = typeof(T);
+            var entityProperties = entityType.GetProperties();
+
+            foreach (var property in entityProperties)
             {
-                var value = property.GetValue(entity);
-                if (value != null)
+                if (properties.Contains(property.Name))
                 {
-                    result[property.Name] = value;
+                    var value = property.GetValue(entity);
+                    if (value != null)
+                    {
+                        result[property.Name] = value;
+                    }
                 }
             }
+
+            return result;
         }
 
-        return result;
-    }
-
-    public static IDictionary<string, object> Omit<T>(T entity, params string[] properties)
-    {
-        var result = new Dictionary<string, object>();
-        var entityType = typeof(T);
-        var entityProperties = entityType.GetProperties();
-
-        foreach (var property in entityProperties)
+        public static dynamic Omit<T>(T entity, params string[] properties)
         {
-            if (!properties.Contains(property.Name))
+            var result = new Dictionary<string, object>();
+            var entityType = typeof(T);
+            var entityProperties = entityType.GetProperties();
+
+            foreach (var property in entityProperties)
             {
-                var value = property.GetValue(entity);
-                if (value != null)
+                if (!properties.Contains(property.Name))
                 {
-                    result[property.Name] = value;
+                    var value = property.GetValue(entity);
+                    if (value != null)
+                    {
+                        result[property.Name] = value;
+                    }
                 }
             }
+
+            return result;
         }
 
-        return result;
+        public static T Clone<T>(T data)
+            where T : class, new()
+        {
+            var serialized = JsonConvert.SerializeObject(data);
+            var clonedData = JsonConvert.DeserializeObject<T>(serialized);
+
+            return clonedData ?? new T(); 
+        }
     }
 }

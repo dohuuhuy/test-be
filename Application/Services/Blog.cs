@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
@@ -12,7 +13,7 @@ namespace Application.Service
             _context = context;
         }
 
-        public async Task<Result<dynamic>> CreateOrUpdate(BlogEntity blog)
+        public async Task<Result> CreateOrUpdate(BlogEntity blog)
         {
             try
             {
@@ -28,18 +29,16 @@ namespace Application.Service
                     var rs = await _context.SaveChangesAsync();
                     var createdId = _context.Entry(blog).Entity.id;
                     if (rs > 0)
-                        return new Result<dynamic>(createdId, "Thêm mới thành công!");
+                        return new Result(createdId, "Thêm mới thành công!");
                     throw new InvalidCastException("Thêm mới không thành công!");
                 }
                 else
                 {
                     var fitem = await _context.BlogEntities.FindAsync(blog.id);
 
-                    Console.WriteLine($"{JsonConvert.SerializeObject(fitem, Formatting.Indented)}");
-
                     if (fitem == null)
                     {
-                        return new Result<dynamic>("Không tìm thấy blog với ID đã cho.");
+                        return new Result("Không tìm thấy blog với ID đã cho.");
                     }
 
                     fitem.title = blog.title;
@@ -48,7 +47,7 @@ namespace Application.Service
                     _context.BlogEntities.Update(fitem);
                     var rs = await _context.SaveChangesAsync();
                     var createdId = _context.Entry(blog).Entity.id;
-                    return new Result<dynamic>(createdId, "Cập nhật thành công!");
+                    return new Result(createdId, "Cập nhật thành công!");
                 }
             }
             catch (Exception)
@@ -57,34 +56,42 @@ namespace Application.Service
             }
         }
 
-        public async Task<Result<dynamic>> All()
+        public async Task<Result> All()
         {
             var blogs = from blog in _context.BlogEntities select blog;
-            return new Result<dynamic>(await blogs.ToListAsync(), "Thành công");
+            return new Result(await blogs.ToListAsync(), "Thành công");
         }
 
-        public async Task<Result<BlogEntity>> One(int id)
+        public class BlogDTO
+        {
+            public string? title { get; set; }
+            public string? content { get; set; }
+        }
+
+        public async Task<Result> One(int id)
         {
             var query =
                 from blog in _context.BlogEntities
                 where blog.id == id
-                select EntityHelper.Omit(blog, "content");
+                select EntityHelper.Omit(blog, "id");
 
             var act = await query.FirstOrDefaultAsync();
-            return new Result<BlogEntity>(act);
+
+            Console.WriteLine($" FirstOrDefault: {act?["title"].ToUpper()}");
+            return new Result(act, "Thành công!");
         }
 
-        public async Task<Result<dynamic>> Remove(int id)
+        public async Task<Result> Remove(int id)
         {
             var fitem = await _context.BlogEntities.FindAsync(id);
 
             if (fitem == null)
             {
-                return new Result<dynamic>("Không tìm thấy blog với ID đã cho.");
+                return new Result("Không tìm thấy blog với ID đã cho.");
             }
             _context.BlogEntities.Remove(fitem);
             await _context.SaveChangesAsync();
-            return new Result<dynamic>("Xoá thành công!");
+            return new Result("Xoá thành công!");
         }
     }
 }
