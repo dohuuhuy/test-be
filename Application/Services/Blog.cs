@@ -71,9 +71,9 @@ namespace Application.Service
         public async Task<Result> One(int id)
         {
             var query =
-                from blog in _context.BlogEntities
-                where blog.id == id
-                select EntityHelper.Omit(blog, "id");
+                             from blog in _context.BlogEntities
+                             where blog.id == id
+                             select EntityHelper.Omit(blog, "id");
 
             var act = await query.FirstOrDefaultAsync();
 
